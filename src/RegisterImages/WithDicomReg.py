@@ -26,3 +26,7 @@ def register_images_with_dicom_reg(fixed_image, moving_image, dicom_registration
     moving_resampled = sitk.Resample(moving_image, fixed_image, affine_transform, sitk.sitkLinear, min_value,
                                      moving_image.GetPixelID())
     return moving_resampled
+
+
+if __name__ == '__main__':
+    pass
