@@ -10,7 +10,7 @@ def register_images_with_dicom_reg(fixed_image, moving_image, dicom_registration
     """
     :param fixed_image: The fixed image
     :param moving_image: The moving image
-    :param dicom_registration: the DICOM Registration file
+    :param dicom_registration: the DICOM Registration file, if registration is from CTT 8 to 11, fixed is CT 11, moving is CT 8, 
     :param min_value: Value to put as background in resampled image
     :param method: interpolating method, recommend sitk.sitkLinear for images and sitk.sitkNearestNeighbor for masks
     :return:
