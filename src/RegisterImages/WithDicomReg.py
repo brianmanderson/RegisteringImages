@@ -19,6 +19,7 @@ def registerDicom(fixed_image: sitk.Image, moving_image: sitk.Image, moving_seri
     :return:
     """
     affine_transform = sitk.AffineTransform(3)
+    had_registration = False
     if dicom_registration is not None:
         for i, reg in enumerate(dicom_registration.ReferencedSeriesSequence):
             if reg.SeriesInstanceUID == moving_series_instance_uid:
@@ -29,7 +30,10 @@ def registerDicom(fixed_image: sitk.Image, moving_image: sitk.Image, moving_seri
                 registration_matrix = np.linalg.inv(registration_matrix)
                 affine_transform.SetMatrix(registration_matrix[:3, :3].ravel())
                 affine_transform.SetTranslation(registration_matrix[:3, -1])
+                had_registration = True
                 break
+    if not had_registration:
+        print("Registration was not found between these")
     moving_resampled = sitk.Resample(moving_image, fixed_image, affine_transform, method, min_value,
                                      moving_image.GetPixelID())
     return moving_resampled
