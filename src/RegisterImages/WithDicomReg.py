@@ -22,13 +22,16 @@ def registerDicom(fixed_image: sitk.Image, fixed_image_series_instance_uid: str,
     """
     affine_transform = sitk.AffineTransform(3)
     if dicom_registration is not None:
-        for registration in dicom_registration.RegistrationSequence:
-            xxx = 1
-        registration_matrix = np.asarray(dicom_registration.RegistrationSequence[-1].MatrixRegistrationSequence[-1].
-                                         MatrixSequence[-1].FrameOfReferenceTransformationMatrix).reshape((4, 4))
-        registration_matrix = np.linalg.inv(registration_matrix)
-        affine_transform.SetMatrix(registration_matrix[:3, :3].ravel())
-        affine_transform.SetTranslation(registration_matrix[:3, -1])
+        for i, reg in enumerate(dicom_registration.ReferencedSeriesSequence):
+            if reg.SeriesInstanceUID == moving_series_instance_uid:
+                registration_matrix = np.asarray(dicom_registration.RegistrationSequence[i].
+                                                 MatrixRegistrationSequence[-1].
+                                                 MatrixSequence[-1].FrameOfReferenceTransformationMatrix).\
+                    reshape((4, 4))
+                registration_matrix = np.linalg.inv(registration_matrix)
+                affine_transform.SetMatrix(registration_matrix[:3, :3].ravel())
+                affine_transform.SetTranslation(registration_matrix[:3, -1])
+                break
     moving_resampled = sitk.Resample(moving_image, fixed_image, affine_transform, method, min_value,
                                      moving_image.GetPixelID())
     return moving_resampled
