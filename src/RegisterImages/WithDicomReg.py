@@ -5,14 +5,12 @@ import pydicom
 import numpy as np
 
 
-def registerDicom(fixed_image: sitk.Image, fixed_image_series_instance_uid: str,
-                  moving_image: sitk.Image, moving_series_instance_uid: str,
+def registerDicom(fixed_image: sitk.Image, moving_image: sitk.Image, moving_series_instance_uid: str,
                   dicom_registration: pydicom.dataset.FileDataset, min_value=-1000, method=sitk.sitkLinear):
     """
     A method of passing SimpleITK images from DICOM and the DICOM series instance UIDs. This can be useful when there
     are multiple registrations in the registration file.
     :param fixed_image: The fixed image
-    :param fixed_image_series_instance_uid: the series instance UID of the fixed image
     :param moving_image: The moving image
     :param moving_series_instance_uid: the series instance UID of the moving image
     :param dicom_registration: the DICOM Registration file, if registration is from CTT 8 to 11, fixed is CT 11, moving is CT 8,
