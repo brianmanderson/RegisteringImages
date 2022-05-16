@@ -6,7 +6,8 @@ import numpy as np
 
 
 def registerDicom(fixed_image: sitk.Image, moving_image: sitk.Image, moving_series_instance_uid: str,
-                  dicom_registration: pydicom.dataset.FileDataset, min_value=-1000, method=sitk.sitkLinear):
+                  dicom_registration: pydicom.dataset.FileDataset, min_value=-1000, method=sitk.sitkLinear,
+                  return_affine=False):
     """
     A method of passing SimpleITK images from DICOM and the DICOM series instance UIDs. This can be useful when there
     are multiple registrations in the registration file.
@@ -36,6 +37,8 @@ def registerDicom(fixed_image: sitk.Image, moving_image: sitk.Image, moving_seri
         print("Registration was not found between these")
     moving_resampled = sitk.Resample(moving_image, fixed_image, affine_transform, method, min_value,
                                      moving_image.GetPixelID())
+    if return_affine:
+        return moving_resampled, affine_transform
     return moving_resampled
 
 
