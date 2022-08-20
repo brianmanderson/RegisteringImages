@@ -2,7 +2,7 @@
 # Installation guide
     pip install RegisteringImages
 ## Highly recommend to also have DicomRTTool installed
-    pip install RegisteringImages
+    pip install DicomRTTool
 Example:
 
     from DicomRTTool import DicomReaderWriter
