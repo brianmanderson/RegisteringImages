@@ -13,7 +13,7 @@ setup(
     name='RegisteringImages',
     author='Brian Mark Anderson',
     author_email='bmanderson@mdanderson.org',
-    version='0.1.2',
+    version='0.1.3',
     description='Tools for reading DICOM registration file along with two SimpleITK Images (probably from DICOM) '
                 'and resampling the moving image. Major help from Bastien Rigaud in creation.',
     long_description=long_description,

@@ -52,15 +52,18 @@ def register_images_with_dicom_reg(fixed_image: sitk.Image, moving_image: sitk.I
     :param method: interpolating method, recommend sitk.sitkLinear for images and sitk.sitkNearestNeighbor for masks
     :return:
     """
-    assert type(dicom_registration) is pydicom.dataset.FileDataset \
-           or dicom_registration is None, 'Pass dicom_registration as pydicom.read_file(reg_file) or None'
     affine_transform = sitk.AffineTransform(3)
     if dicom_registration is not None:
-        registration_matrix = np.asarray(dicom_registration.RegistrationSequence[-1].MatrixRegistrationSequence[-1].
-                                         MatrixSequence[-1].FrameOfReferenceTransformationMatrix).reshape((4, 4))
+        if type(dicom_registration) is pydicom.dataset.FileDataset:
+            registration_matrix = np.asarray(dicom_registration.RegistrationSequence[-1].MatrixRegistrationSequence[-1].
+                                             MatrixSequence[-1].FrameOfReferenceTransformationMatrix).reshape((4, 4))
+        else:
+            print("Assuming the dicom_registration passed is a registration matrix")
+            registration_matrix = np.asarray(dicom_registration).reshape((4, 4))
         registration_matrix = np.linalg.inv(registration_matrix)
         affine_transform.SetMatrix(registration_matrix[:3, :3].ravel())
         affine_transform.SetTranslation(registration_matrix[:3, -1])
+
     moving_resampled = sitk.Resample(moving_image, fixed_image, affine_transform, method, min_value,
                                      moving_image.GetPixelID())
     return moving_resampled
