@@ -16,11 +16,13 @@ Example:
     
     fixed_path = 'some_path_to_fixed_image'
     moving_path = 'some_path_to_moving_image'
-
+    
     fixed_reader.down_folder(fixed_path)
     moving_reader.down_folder(moving_path)
-    fixed_image = sitk.Cast(primary_reader.dicom_handle, sitk.sitkFloat32)
-    moving_image = sitk.Cast(secondary_reader.dicom_handle, sitk.sitkFloat32)
     
-    resampled_moving = register_images_with_dicom_reg(fixed_image=fixed_image, moving_image=moving_image, dicom_registration=dicom_registration)
+    fixed_image = sitk.Cast(fixed_reader.dicom_handle, sitk.sitkFloat32)
+    moving_image = sitk.Cast(moving_reader.dicom_handle, sitk.sitkFloat32)
+    
+    resampled_moving = register_images_with_dicom_reg(fixed_image=fixed_image, moving_image=moving_image,
+                                                      dicom_registration=dicom_registration)
     
