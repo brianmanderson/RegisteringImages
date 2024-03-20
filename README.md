@@ -16,7 +16,9 @@ Example:
     
     fixed_path = 'some_path_to_fixed_image'
     moving_path = 'some_path_to_moving_image'
-    
+
+    primary_path = 'Path_to_fixed_images'
+    secondary_path = 'Path_to_moving_images'
     fixed_reader.down_folder(primary_path)
     moving_reader.down_folder(secondary_path)
     fixed_image = sitk.Cast(primary_reader.dicom_handle, sitk.sitkFloat32)
