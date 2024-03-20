@@ -22,5 +22,5 @@ Example:
     fixed_image = sitk.Cast(primary_reader.dicom_handle, sitk.sitkFloat32)
     moving_image = sitk.Cast(secondary_reader.dicom_handle, sitk.sitkFloat32)
     
-    resampled_moving = register_images_with_reg(fixed_image=fixed_image, moving_image=moving_image, dicom_registration=dicom_registration)
+    resampled_moving = register_images_with_dicom_reg(fixed_image=fixed_image, moving_image=moving_image, dicom_registration=dicom_registration)
     
